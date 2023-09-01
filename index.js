@@ -21,10 +21,12 @@ const main = async () => {
 
   // Habilitamos o processamento de JSON
   app.use(express.json());
+  // Habilitando cors no backend
   app.use(cors())
+
   // Endpoint Principal
   app.get("/", function (req, res) {
-    res.send("Coloque a rota /herois para visualizar em JSON os herois salvos no banco do atlas db");
+    res.send("Coloque a rota /herois para visualizar em JSON os herois salvos no banco do atlas db.");
   });
 
   // Read All -> [GET] /herois
@@ -39,26 +41,21 @@ const main = async () => {
 
     // Extrai o nome do Body da Request (Corpo da Requisição)
     const item = req.body;
-    try {
-         // Inserir o item na collection
+
+    // Inserir o item na collection
     await collection.insertOne(item);
 
     // Enviamos uma resposta de sucesso
     res.status(201).send(item);
-      
-    } catch (error) {
-      res.send(`Envie em formato JSON um herois, Ex('nome':'coloque o nome do seu heroi aqui') ${error} `)
-    }
- 
   });
 
   // Read By Id -> [GET] /herois/:id
-  app.get("/herois/:indice", async function (req, res) {
+  app.get("/herois/:id", async function (req, res) {
     try {
-      const indice = parseInt(req.params.indice);
+      const id = parseInt(req.params.id);
 
       // Consulta o item na coleção "herois" com base no índice
-      const item = await collection.findOne({}, { skip: indice });
+      const item = await collection.findOne({}, { skip: id });
 
       if (!item) {
         return res.status(404).send("Item não encontrado");
@@ -87,13 +84,19 @@ const main = async () => {
 
   // Delete -> [DELETE] /herois/:id
   app.delete("/herois/:id", async function (req, res) {
-    // Pegamos o parâmetro de rota ID
-    const id = req.params.id;
-
+    try{
+      // Pegamos o parâmetro de rota ID
+      const id = req.params.id;
+      
     // Excluir o item da collection
     await collection.deleteOne({ _id: new ObjectId(id) });
+    
+    res.status(204).send(`Arquivo deletado com sucesso! ${id}`);
 
-    res.status(204).send();
+  }catch(error){
+    res.send(`Erro em deletar o id ${id} ${error}`)
+  }
+    
   });
 
   app.listen(process.env.PORT || 3000);
