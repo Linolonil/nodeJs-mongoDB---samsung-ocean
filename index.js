@@ -4,6 +4,7 @@ const { MongoClient, ObjectId } = require("mongodb");
 // const url = "mongodb://localhost:27017";
 // const url = "mongodb://127.0.0.1:27017";
 const url = "mongodb+srv://admin:n2mHsvk07wkvcqt7@cluster0.gzavpjb.mongodb.net/";
+
 // const url = "mongodb+srv://admin:V90K7ehx2krw7OlM@cluster0.gbnr4oi.mongodb.net";
 const dbName = "jornada-backend-agosto-23";
 const client = new MongoClient(url);
