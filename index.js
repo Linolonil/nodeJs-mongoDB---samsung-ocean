@@ -15,7 +15,7 @@ const main = async () => {
   console.info("Banco de dados conectado com sucesso!");
 
   const db = client.db(dbName);
-  const collection = db.collection("herois").pretty();
+  const collection = db.collection("herois");
 
   const app = express();
 
@@ -30,10 +30,10 @@ const main = async () => {
   });
 
   // Read All -> [GET] /herois
-  app.get("/herois", async function (req, res) {
+ app.get("/herois", async function (req, res) {
     const itens = await collection.find().toArray();
-    res.send(itens);
-  });
+    res.json(itens);
+});
 
   // Create -> [POST] /herois
   app.post("/herois", async function (req, res) {
