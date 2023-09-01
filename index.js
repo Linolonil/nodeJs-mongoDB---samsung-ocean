@@ -15,7 +15,7 @@ const main = async () => {
   console.info("Banco de dados conectado com sucesso!");
 
   const db = client.db(dbName);
-  const collection = db.collection("herois");
+  const collection = db.collection("herois").pretty();
 
   const app = express();
 
