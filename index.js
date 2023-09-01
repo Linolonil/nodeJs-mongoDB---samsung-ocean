@@ -7,7 +7,7 @@ const url = "mongodb://127.0.0.1:27017";
 const dbName = "jornada-backend-agosto-23";
 const client = new MongoClient(url);
 
-async function main() {
+const main = async () => {
   console.info("Conectando ao banco de dados...");
   await client.connect();
   console.info("Banco de dados conectado com sucesso!");
@@ -94,6 +94,6 @@ async function main() {
   });
 
   app.listen(3000);
-}
+};
 
 main();
