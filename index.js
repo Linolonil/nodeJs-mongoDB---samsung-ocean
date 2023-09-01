@@ -55,17 +55,22 @@ const main = async () => {
   });
 
   // Read By Id -> [GET] /herois/:id
-  app.get("/herois/:id", async function (req, res) {
-    // Pegamos o parâmetro de rota ID
-    const id = req.params.id;
+  app.get("/herois/:indice", async function (req, res) {
+    try {
+      const indice = parseInt(req.params.indice);
 
-    // Pegamos a informação da collection
-    const item = await collection.findOne({
-      _id: new ObjectId(id),
-    });
+      // Consulta o item na coleção "herois" com base no índice
+      const item = await collection.findOne({}, { skip: indice });
 
-    // Exibimos o item na resposta do endpoint
-    res.send(item);
+      if (!item) {
+        return res.status(404).send("Item não encontrado");
+      }
+
+      res.send(item);
+    } catch (error) {
+      console.error("Erro ao buscar o item:", error);
+      res.status(500).send("Erro interno do servidor");
+    }
   });
 
   // Update -> [PUT] /herois/:id
