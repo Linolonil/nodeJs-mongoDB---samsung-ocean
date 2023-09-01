@@ -21,7 +21,7 @@ const main = async () => {
 
   // Habilitamos o processamento de JSON
   app.use(express.json());
-
+  app.use("cors")
   // Endpoint Principal
   app.get("/", function (req, res) {
     res.send("Hello World");
