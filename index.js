@@ -24,17 +24,8 @@ const main = async () => {
   app.use(cors())
   // Endpoint Principal
   app.get("/", function (req, res) {
-    res.send("Hello World");
+    res.send("Coloque a rota /herois para visualizar em JSON os herois salvos no banco do atlas db");
   });
-
-  // Endpoint /oi
-  app.get("/oi", function (req, res) {
-    res.send("Olá, mundo!");
-  });
-
-  // Endpoints de Herois
-  const lista = ["Mulher Maravilha", "Capitã Marvel", "Homem de Ferro"];
-  //             0                    1                2
 
   // Read All -> [GET] /herois
   app.get("/herois", async function (req, res) {
@@ -48,12 +39,17 @@ const main = async () => {
 
     // Extrai o nome do Body da Request (Corpo da Requisição)
     const item = req.body;
-
-    // Inserir o item na collection
+    try {
+         // Inserir o item na collection
     await collection.insertOne(item);
 
     // Enviamos uma resposta de sucesso
     res.status(201).send(item);
+      
+    } catch (error) {
+      res.send(`Envie em formato JSON um herois, Ex('nome':'coloque o nome do seu heroi aqui') ${error} `)
+    }
+ 
   });
 
   // Read By Id -> [GET] /herois/:id
